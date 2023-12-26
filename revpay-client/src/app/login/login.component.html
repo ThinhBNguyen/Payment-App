@@ -1,0 +1,26 @@
+<div>
+    <div class ="container">
+      <p class ="h4 mb-4" >User Login</p>
+      <!-- <div th:if="${param.error}" class="alert alert-danger" role="alert"> -->
+        <!-- Invalid username and password. -->
+      <!-- </div> -->
+      <!-- <div th:if="${param.logout}" class="alert alert-success" role="alert"> -->
+        <!-- You have been logged out. -->
+      <!-- </div> -->
+      <!-- <div th:if="${param.register}"  class="alert alert-success" role="alert"> -->
+        <!-- Registration successful. -->
+      <!-- </div> -->
+  <form th:action = "@{/api/login}" method="POST">
+  <div>
+    <label for ="username" >Username </label>
+    <input type="text" id="username" name = "username" placeholder="Username" class="form-control mb-4 w-25">
+  </div>
+  <div>
+    <label for ="password" >Password</label>
+    <input type="password" id="password" name ="password" placeholder="Password" class="form-control mb-4 w-25">
+  </div>
+  <nav><button value="Log in" type="submit" class = "btn btn-primary">Login </button>
+  <a routerLink="register" class="btn btn-primary" > Register </a></nav>
+  </form>
+  </div>
+  </div>

@@ -1,0 +1,22 @@
+<p class ="h4 mb-4" >Registration</p>
+  <form (onClick) = "register()">
+       <label >Firstname </label>
+    <input type ="text" [(ngModel)] ="firstName"
+           class="form-control mb-4 w-25" placeholder="Firstname">
+       <label >Lastname </label>
+    <input type ="text" [(ngModel)] ="lastName"
+           class="form-control mb-4 w-25" placeholder="Lastname">
+    <label >Username </label>
+    <input type ="text" [(ngModel)] ="userName"
+           class="form-control mb-4 w-25" placeholder="Username">
+    <label >Password </label>
+    <input type ="password" [(ngModel)] ="password"
+           class="form-control mb-4 w-25" placeholder="Password">
+       <label >Email </label>
+    <input type ="text" [(ngModel)] ="email"
+              class="form-control mb-4 w-25" placeholder="Email">
+    <button type="submit" class ="btn btn-info col-2">Register</button>
+    <hr>
+    <a href="">Back to Login</a>
+
+  </form>
