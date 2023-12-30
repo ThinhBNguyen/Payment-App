@@ -1,6 +1,7 @@
 package com.example.Revagenda.Rev_Pay.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.boot.autoconfigure.web.WebProperties;
@@ -11,6 +12,11 @@ import java.util.List;
 @Table(indexes = {@Index(columnList = "username")})
 public class User {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    public enum Role{
+        USER,
+        ADMIN
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,19 +42,32 @@ public class User {
     @Column(name = "email", unique = true)
     private String email;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="role")
+    private Role role;
+
     @OneToMany(mappedBy = "user")
     private List<Account> accounts;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public User() {
     }
 
-    public User(int id, String firstName, String lastName, String userName, String passWord, String email) {
+    public User(int id, String firstName, String lastName, String userName, String passWord, String email, Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
         this.passWord = passWord;
         this.email = email;
+        this.role = role;
     }
 
     public String getFirstName() {

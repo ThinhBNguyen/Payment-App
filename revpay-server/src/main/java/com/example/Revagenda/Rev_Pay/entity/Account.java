@@ -2,6 +2,8 @@ package com.example.Revagenda.Rev_Pay.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity(name = "accounts")
 public class Account {
 
@@ -11,7 +13,7 @@ public class Account {
     private int id;
 
     @Column(name = "balance")
-    private int balance;
+    private BigDecimal balance;
 
     @ManyToOne
     @JoinColumn(name = "userid")
@@ -45,11 +47,11 @@ public class Account {
         this.id = id;
     }
 
-    public int getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 

@@ -1,22 +1,52 @@
-<p class ="h4 mb-4" >Registration</p>
-  <form (onClick) = "register()">
-       <label >Firstname </label>
-    <input type ="text" [(ngModel)] ="firstName"
-           class="form-control mb-4 w-25" placeholder="Firstname">
-       <label >Lastname </label>
-    <input type ="text" [(ngModel)] ="lastName"
-           class="form-control mb-4 w-25" placeholder="Lastname">
-    <label >Username </label>
-    <input type ="text" [(ngModel)] ="userName"
-           class="form-control mb-4 w-25" placeholder="Username">
-    <label >Password </label>
-    <input type ="password" [(ngModel)] ="password"
-           class="form-control mb-4 w-25" placeholder="Password">
-       <label >Email </label>
-    <input type ="text" [(ngModel)] ="email"
-              class="form-control mb-4 w-25" placeholder="Email">
-    <button type="submit" class ="btn btn-info col-2">Register</button>
-    <hr>
-    <a href="">Back to Login</a>
+<div class ="container">
+<p class="h4 mb-4">Registration</p>
+<form name="form" #f="ngForm" (ngSubmit)="f.valid && register()">
+       <label>Firstname </label>
+       <input type="text" [(ngModel)]= "firstName" name="firstName" class="form-control mb-4 w-25"
+              placeholder="Firstname" 
+              required #firstname="ngModel"
+              [ngClass] = "{ 'is-invalid': f.submitted && firstname.errors }">
+       <div *ngIf= "f.submitted && firstname.errors" class ="invalid-feedback">
+              <small *ngIf="firstname.errors?.['required']"> Firstname is required</small>
+       </div>
+       <label>Lastname </label>
+       <input type="text" [(ngModel)]="lastName" name="lastName" class="form-control mb-4 w-25" 
+              placeholder="Lastname"
+              required #lastname="ngModel"
+              [ngClass] = "{ 'is-invalid': f.submitted && lastname.errors }">
+       <div *ngIf= "f.submitted && lastname.errors" class ="invalid-feedback">
+              <small *ngIf="lastname.errors?.['required']"> Lastname is required</small>
+       </div>
+       <label>Username </label>
+       <input type="text" [(ngModel)]="userName" name="userName" class="form-control mb-4 w-25" 
+              placeholder="Username"
+              required minlength="6" #username="ngModel"
+              [ngClass] = "{ 'is-invalid': f.submitted && username.errors }">
+       <div *ngIf= "f.submitted && username.errors" class ="invalid-feedback">
+              <small *ngIf="username.errors?.['required']"> Username is required</small>
+              <small *ngIf="username.errors?.['minlength']"> Username must be at least 6 characters</small>
+       </div>
+       <label>Password </label>
+       <input type="password" [(ngModel)]="passWord" name="passWord" class="form-control mb-4 w-25"
+              placeholder="Password"
+              required minlength="6" #password="ngModel"
+              [ngClass] = "{ 'is-invalid': f.submitted && password.errors }">
+       <div *ngIf= "f.submitted && password.errors" class ="invalid-feedback">
+              <small *ngIf="password.errors?.['required']"> Password is required</small>
+              <small *ngIf="password.errors?.['minlength']"> Password must be at least 6 characters</small>
+       </div>
+       <label>Email </label>
+       <input type="text" [(ngModel)]="email" name="email" class="form-control mb-4 w-25" 
+              placeholder="Email" 
+              required email #eMail="ngModel"
+              [ngClass] = "{ 'is-invalid': f.submitted && eMail.errors }">
+       <div *ngIf= "f.submitted && eMail.errors" class ="invalid-feedback">
+              <small *ngIf="eMail.errors?.['required']"> Email is required</small>
+              <small *ngIf="eMail.errors?.['email']"> Email is invalid</small>
+       </div>
+       <button type="submit" class="btn btn-info col-2">Register</button>
+       <hr>
+       <a routerLink="">Back to Login</a>
 
-  </form>
+</form>
+</div>
