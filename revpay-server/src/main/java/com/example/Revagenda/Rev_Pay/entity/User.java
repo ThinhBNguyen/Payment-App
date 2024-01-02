@@ -2,6 +2,7 @@ package com.example.Revagenda.Rev_Pay.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.boot.autoconfigure.web.WebProperties;
@@ -47,6 +48,7 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private List<Account> accounts;
 
     public Role getRole() {

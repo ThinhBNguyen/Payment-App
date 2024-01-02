@@ -1,5 +1,7 @@
 package com.example.Revagenda.Rev_Pay.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -17,14 +19,15 @@ public class Account {
 
     @ManyToOne
     @JoinColumn(name = "userid")
+    @JsonBackReference
     private User user;
 
     @OneToOne(mappedBy = "account")
+    @JsonManagedReference
     private Card card;
     private enum Type {
         USER,
-        BUSSINESS,
-        ADMIN
+        BUSINESS
     }
 
     @Enumerated(EnumType.STRING)
@@ -34,8 +37,7 @@ public class Account {
     public Account() {
     }
 
-    public Account(Card card, Type type) {
-        this.card = card;
+    public Account(Type type) {
         this.type = type;
     }
 
@@ -78,4 +80,6 @@ public class Account {
     public void setType(Type type) {
         this.type = type;
     }
+
+
 }

@@ -11,10 +11,31 @@ export interface UserDto {
   role: string
 }
 
+export interface Account {
+  type: string
+}
+
+export interface AccountCard{
+  card: {
+    cardNumber: string;
+    cardSecurity: string;
+    type: string;
+  };
+}
+
+export interface Card {
+  cardNumber: string;
+  cardSecurity: string;
+  type: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class RemoteService {
+  getUserAccounts(): Observable<any> {
+    return this.http.get(this.baseUrl + '/accounts/my-accounts', { withCredentials: true });
+  }
 
   httpOptions = {
     observe: 'response', 
@@ -41,8 +62,24 @@ export class RemoteService {
     return this.http.post(this.baseUrl+'/login', {}, { headers: headers, withCredentials: true });
   }
 
-  getUsers(): Observable<any> {
-    return this.http.get(this.baseUrl + '/users', { withCredentials: true });
+  logout(): Observable<any> {
+    return this.http.post(this.baseUrl+'/logout', {}, { withCredentials: true });
+  }
+
+  createAccount(account: Account): Observable<any> {
+    return this.http.post(this.baseUrl+'/accounts/create-account',account,{ withCredentials: true })
+  }
+
+  addCard(card: Card, accountId: any) :Observable<any>{
+    return this.http.post(this.baseUrl+`/accounts/${accountId}/add-card`,card,{ withCredentials: true })
+  }
+
+  getCard(card: Card, accountId: number): Observable<any> {
+    return this.http.post(this.baseUrl+`/accounts/${accountId}/get-card`, card, { withCredentials: true });
+  }
+
+  deposit(accountId : number, amount : number) : Observable<any>{
+    return this.http.post(this.baseUrl + `/accounts/${accountId}/deposit`, amount,{ withCredentials: true });
   }
 }
 

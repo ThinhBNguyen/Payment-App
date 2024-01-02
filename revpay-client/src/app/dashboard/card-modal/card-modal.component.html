@@ -1,0 +1,32 @@
+<div class="modal fade" id="cardModal" tabindex="-1" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cardModalLabel">Add New Card</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span >&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit) = "onSubmit()" >
+                    <div class="form-group">
+                        <label for="cardNumber">Card Number</label>
+                        <input type="text" class="form-control" [(ngModel)] = "card.cardNumber"id="cardNumber"  name="cardNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardSecurityCode">Security Code</label>
+                        <input type="text" class="form-control" id="cardSecurityCode" [(ngModel)] = "card.cardSecurity"  name="cardSecurity" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardType">Card Type</label>
+                        <select class="form-control" id="cardType"  [(ngModel)] = "card.type" name="type"  required>
+                            <option value="CREDIT">CREDIT</option>
+                            <option value="DEBIT">DEBIT</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Card</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

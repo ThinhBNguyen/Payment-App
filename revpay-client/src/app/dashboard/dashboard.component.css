@@ -1,0 +1,9 @@
+.scrollable-container {
+    max-height: 600px;
+    overflow-y: auto;
+    outline: 2px solid black;
+    outline-offset: 5px;
+    border-radius: 25px;
+    padding: 15px;
+    margin-bottom: 20px;
+}

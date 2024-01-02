@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { RemoteService } from '../remote.service';
 
 @Component({
@@ -19,12 +19,15 @@ export class LoginComponent {
   loginMessage: string = '';
   isValidMessage: string = '';
 
-  constructor(private remoteService : RemoteService) {}
+  constructor(private remoteService : RemoteService,
+    private router: Router) {}
 
   login():void{
      this.remoteService.login(this.userName, this.passWord).subscribe(
        data=>{
         this.loginMessage = 'Login successful!';
+        this.router.navigate(['/dashboard']);
+
     },
     error =>{
       this.isValidMessage = 'Invalid username or password.';

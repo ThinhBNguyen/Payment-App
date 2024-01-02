@@ -1,9 +1,21 @@
 package com.example.Revagenda.Rev_Pay.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity(name = "cards")
 public class Card {
+
+
+    private enum CardType {
+        DEBIT,
+        CREDIT
+
+    }
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private CardType type;
 
     @Id
     @Column(name = "cardnumber", unique = true, nullable = false)
@@ -15,6 +27,7 @@ public class Card {
 
     @OneToOne
     @JoinColumn(name = "accountid")
+    @JsonBackReference
     private Account account;
 
     public Card() {
@@ -47,5 +60,13 @@ public class Card {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public CardType getType() {
+        return type;
+    }
+
+    public void setType(CardType type) {
+        this.type = type;
     }
 }

@@ -4,6 +4,7 @@ import com.example.Revagenda.Rev_Pay.dao.UserRepository;
 import com.example.Revagenda.Rev_Pay.entity.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +30,10 @@ public class UserService {
 
     public List<User> getAllUser(){
         return userRepository.findAll();
+    }
+
+    public User findByUserName(String username){
+        return userRepository.findByUserName(username).orElseThrow(()
+                -> new UsernameNotFoundException("User not found with username: " + username));
     }
 }
