@@ -5,13 +5,13 @@ import { RemoteService } from '../../remote.service';
 import { DashboardComponent } from '../dashboard.component';
 
 @Component({
-  selector: 'app-deposit-modal',
+  selector: 'app-withdraw-modal',
   standalone: true,
   imports: [FormsModule, CommonModule],
-  templateUrl: './deposit-modal.component.html',
-  styleUrl: './deposit-modal.component.css'
+  templateUrl: './withdraw-modal.component.html',
+  styleUrl: './withdraw-modal.component.css'
 })
-export class DepositModalComponent {
+export class WithdrawModalComponent {
 
   @Input() accountId: any;
 
@@ -22,7 +22,7 @@ export class DepositModalComponent {
 
   onSubmit() {
     console.log('accountid: ' + this.accountId)
-    this.remoteService.deposit(this.accountId, this.amount).subscribe({
+    this.remoteService.withdraw(this.accountId, this.amount).subscribe({
       next:(balance)=>{
         console.log("deposit successful" + balance)
         this.dashBoard.onChange(balance,this.accountId)
@@ -38,4 +38,5 @@ export class DepositModalComponent {
       event.preventDefault();
     }
   }
+
 }

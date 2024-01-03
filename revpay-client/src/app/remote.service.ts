@@ -29,6 +29,12 @@ export interface Card {
   type: string;
 }
 
+export interface SendDetails{
+  recipientIdentifier: string;
+  senderAccountId: number | null;
+  amount: number
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -79,8 +85,26 @@ export class RemoteService {
   }
 
   deposit(accountId : number, amount : number) : Observable<any>{
-    return this.http.post(this.baseUrl + `/accounts/${accountId}/deposit`, amount,{ withCredentials: true });
+    return this.http.post(this.baseUrl + `/accounts/${accountId}/deposit`, amount,{ withCredentials: true })
   }
+
+  getAccountsWithCard(): Observable<any>{
+    return this.http.get(this.baseUrl + '/accounts/accounts-with-card',{ withCredentials: true })
+  }
+
+  sendMoney(sendDetails: SendDetails): Observable<any>{
+    return this.http.post(this.baseUrl + '/transactions/transfer',sendDetails,{ withCredentials: true })
+  }
+
+  getTransactions() : Observable<any> {
+    return this.http.get(this.baseUrl + '/transactions/get-transactions', { withCredentials: true });
+  }
+
+  withdraw(accountId : number, amount : number) : Observable<any>{
+    return this.http.post(this.baseUrl + `/accounts/${accountId}/withdraw`, amount,{ withCredentials: true })
+  }
+
+  
 }
 
 

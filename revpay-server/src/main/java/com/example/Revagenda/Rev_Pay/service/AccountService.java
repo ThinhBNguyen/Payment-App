@@ -3,6 +3,7 @@ package com.example.Revagenda.Rev_Pay.service;
 import com.example.Revagenda.Rev_Pay.dao.AccountRepository;
 import com.example.Revagenda.Rev_Pay.entity.Account;
 import com.example.Revagenda.Rev_Pay.entity.User;
+import com.example.Revagenda.Rev_Pay.exceptions.InsufficientFundsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class AccountService {
         return accountRepository.findAllByUserId(user.getId());
     }
 
-    public Account createAccount(Account account){
+    public Account save(Account account){
 
         return accountRepository.save(account);
     }
@@ -53,6 +54,27 @@ public class AccountService {
             account.setBalance(BigDecimal.valueOf(0));
         BigDecimal currentBalance = account.getBalance();
         BigDecimal newBalance = currentBalance.add(amount);
+        account.setBalance(newBalance);
+        return accountRepository.save(account);
+    }
+
+    public List<Account> getAccountsWithCard(String username) {
+        User user = userService.findByUserName(username);
+        return accountRepository.findAllWithBalanceByUserId(user.getId());
+    }
+
+    public Account withdraw(int accountId, BigDecimal amount) {
+        Account account = getAccountById(accountId);
+        if (account.getBalance() == null) {
+            account.setBalance(BigDecimal.ZERO);
+        }
+        BigDecimal currentBalance = account.getBalance();
+
+        if (currentBalance.compareTo(amount) < 0) {
+            throw new InsufficientFundsException("Insufficient funds for withdrawal");
+        }
+
+        BigDecimal newBalance = currentBalance.subtract(amount);
         account.setBalance(newBalance);
         return accountRepository.save(account);
     }

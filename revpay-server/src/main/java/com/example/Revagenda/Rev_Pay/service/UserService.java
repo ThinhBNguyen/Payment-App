@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(Transactional.TxType.REQUIRED)
@@ -35,5 +36,9 @@ public class UserService {
     public User findByUserName(String username){
         return userRepository.findByUserName(username).orElseThrow(()
                 -> new UsernameNotFoundException("User not found with username: " + username));
+    }
+
+    public User findByUsernameOrEmail(String recipientIdentifier) {
+        return userRepository.findByUserNameOrEmail(recipientIdentifier);
     }
 }

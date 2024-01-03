@@ -4,6 +4,7 @@ package com.example.Revagenda.Rev_Pay.controller;
 import com.example.Revagenda.Rev_Pay.entity.Account;
 import com.example.Revagenda.Rev_Pay.service.AccountService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,9 +40,29 @@ public class AccountController {
 
     @PostMapping("/{accountId}/deposit")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public BigDecimal deposit(@PathVariable int accountId, @RequestBody BigDecimal amount){
+    public ResponseEntity<?> deposit(@PathVariable int accountId, @RequestBody BigDecimal amount){
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            return ResponseEntity.badRequest().body("Amount must be positive");
+        }
        Account account = accountService.deposit(accountId, amount);
-       return account.getBalance();
+       return ResponseEntity.ok(account.getBalance());
+    }
+
+    @PostMapping("/{accountId}/withdraw")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ResponseEntity<?> withdraw(@PathVariable int accountId, @RequestBody BigDecimal amount){
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            return ResponseEntity.badRequest().body("Amount must be positive");
+        }
+        Account account = accountService.withdraw(accountId, amount);
+        return ResponseEntity.ok(account.getBalance());
+    }
+
+    @GetMapping("/accounts-with-card")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Account> getAccountsWithCard(Principal principal) {
+        String username = principal.getName();
+        return accountService.getAccountsWithCard(username);
     }
 
 }

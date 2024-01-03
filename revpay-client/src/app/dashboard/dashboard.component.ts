@@ -6,13 +6,19 @@ import { Router, RouterLink } from '@angular/router';
 import { Card, RemoteService } from '../remote.service';
 import { CardModalComponent } from './card-modal/card-modal.component';
 import { DepositModalComponent } from './deposit-modal/deposit-modal.component';
+import { SendModalComponent } from './send-modal/send-modal.component';
+import { TransactionModalComponent } from './transaction-modal/transaction-modal.component';
+import { WithdrawModalComponent } from './withdraw-modal/withdraw-modal.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [FormsModule, RouterLink, CommonModule,
     CardModalComponent,
-    DepositModalComponent],
+    DepositModalComponent,
+    SendModalComponent,
+    TransactionModalComponent,
+    WithdrawModalComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -73,7 +79,7 @@ export class DashboardComponent {
       }
     }
 
-    onDeposit(amount : number, accountId: number){
+    onChange(amount : number, accountId: number){
       const account = this.accounts.find(acc => acc.id === accountId);
       if(account){
         account.balance = amount;

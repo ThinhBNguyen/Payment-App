@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity(name = "accounts")
 public class Account {
@@ -34,7 +35,31 @@ public class Account {
     @Column(name = "type")
     private Type type;
 
+    @OneToMany(mappedBy = "fromAccount")
+    @JsonManagedReference("account-sentTransactions")
+    private List<Transaction> sentTransactions;
+
+    @OneToMany(mappedBy = "toAccount")
+    @JsonManagedReference("account-receivedTransactions")
+    private List<Transaction> receivedTransactions;
+
     public Account() {
+    }
+
+    public List<Transaction> getSentTransactions() {
+        return sentTransactions;
+    }
+
+    public void setSentTransactions(List<Transaction> sentTransactions) {
+        this.sentTransactions = sentTransactions;
+    }
+
+    public List<Transaction> getReceivedTransactions() {
+        return receivedTransactions;
+    }
+
+    public void setReceivedTransactions(List<Transaction> receivedTransactions) {
+        this.receivedTransactions = receivedTransactions;
     }
 
     public Account(Type type) {
