@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RemoteService } from '../../remote.service';
 import { DashboardComponent } from '../dashboard.component';
@@ -12,7 +12,9 @@ import { DashboardComponent } from '../dashboard.component';
   styleUrl: './deposit-modal.component.css'
 })
 export class DepositModalComponent {
-
+  @ViewChild('closeModal') closeModal!: ElementRef;
+  @Output() succcessMessage = new EventEmitter<string>();
+  @Output() failureMessage = new EventEmitter<string>();
   @Input() accountId: any;
 
   amount : number = 0;
@@ -24,11 +26,13 @@ export class DepositModalComponent {
     console.log('accountid: ' + this.accountId)
     this.remoteService.deposit(this.accountId, this.amount).subscribe({
       next:(balance)=>{
-        console.log("deposit successful" + balance)
         this.dashBoard.onChange(balance,this.accountId)
+        this.succcessMessage.emit('Deposit Success');
+        this.closeModal.nativeElement.click();
       },
       error: (error)=>{
-        console.log("deposit failed" + error)
+        this.failureMessage.emit('Deposit Failed');
+        this.closeModal.nativeElement.click();
       }
     })
   }

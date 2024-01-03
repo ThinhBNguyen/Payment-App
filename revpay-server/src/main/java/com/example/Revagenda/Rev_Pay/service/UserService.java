@@ -2,6 +2,8 @@ package com.example.Revagenda.Rev_Pay.service;
 
 import com.example.Revagenda.Rev_Pay.dao.UserRepository;
 import com.example.Revagenda.Rev_Pay.entity.User;
+import com.example.Revagenda.Rev_Pay.exceptions.EmailAlreadyExistsException;
+import com.example.Revagenda.Rev_Pay.exceptions.UserAlreadyExistsException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,6 +27,15 @@ public class UserService {
     }
 
     public User createUser(User user){
+        userRepository.findByUserName(user.getUserName())
+                .ifPresent(existingUser -> {
+                    throw new UserAlreadyExistsException("User already exists with username: " + user.getUserName());
+                });
+        userRepository.findByEmail(user.getEmail())
+                .ifPresent(existingUser -> {
+                    throw new EmailAlreadyExistsException("Email already exists: " + user.getEmail());
+                });
+
         user.setPassWord(passwordEncoder.encode(user.getPassWord()));
         return userRepository.save(user);
     }
@@ -39,6 +50,7 @@ public class UserService {
     }
 
     public User findByUsernameOrEmail(String recipientIdentifier) {
-        return userRepository.findByUserNameOrEmail(recipientIdentifier);
+        return userRepository.findByUserNameOrEmail(recipientIdentifier).orElseThrow(()
+                -> new UsernameNotFoundException("User not found: " + recipientIdentifier));
     }
 }

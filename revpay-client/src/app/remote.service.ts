@@ -35,6 +35,12 @@ export interface SendDetails{
   amount: number
 }
 
+export interface PaymentRequestDetails{
+  senderAccountId: number | null,
+    receiverAccountId: number | null,
+    amount: number
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -104,7 +110,22 @@ export class RemoteService {
     return this.http.post(this.baseUrl + `/accounts/${accountId}/withdraw`, amount,{ withCredentials: true })
   }
 
+  getReceivedPaymentRequests(): Observable<any> {
+    return this.http.get(this.baseUrl + '/payment/received-requests', { withCredentials: true });
+  }
   
+  acceptPaymentRequest(requestId: number): Observable<any> {
+    return this.http.post(this.baseUrl + `/payment/accept-payment/${requestId}`, {}, { withCredentials: true });
+  }
+  
+  declinePaymentRequest(requestId: number): Observable<any> {
+    return this.http.post(this.baseUrl + `/payment/decline-payment/${requestId}`, {}, { withCredentials: true });
+  }
+
+  submitPaymentRequest(paymentRequestDetails: PaymentRequestDetails): Observable<any>{
+    return this.http.post(this.baseUrl + `/payment/send-payment`, paymentRequestDetails, { withCredentials: true });
+  }
+
 }
 
 

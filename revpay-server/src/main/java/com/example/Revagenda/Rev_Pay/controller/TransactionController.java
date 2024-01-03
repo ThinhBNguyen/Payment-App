@@ -3,11 +3,13 @@ package com.example.Revagenda.Rev_Pay.controller;
 import com.example.Revagenda.Rev_Pay.dto.TransactionDTO;
 import com.example.Revagenda.Rev_Pay.dto.TransferDTO;
 import com.example.Revagenda.Rev_Pay.entity.Transaction;
+import com.example.Revagenda.Rev_Pay.exceptions.InsufficientFundsException;
 import com.example.Revagenda.Rev_Pay.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,5 +41,20 @@ public class TransactionController {
         String username = authentication.getName();
         List<TransactionDTO> transactions = transactionService.getTransactionsForUser(username);
         return ResponseEntity.ok(transactions);
+    }
+
+    //EXCEPTIONS HANDLING
+
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleUserNotFound(UsernameNotFoundException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(InsufficientFundsException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String InsufficientFundsException(InsufficientFundsException ex) {
+        return ex.getMessage();
     }
 }

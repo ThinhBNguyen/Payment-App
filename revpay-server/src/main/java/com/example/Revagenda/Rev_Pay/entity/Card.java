@@ -3,6 +3,8 @@ package com.example.Revagenda.Rev_Pay.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity(name = "cards")
 public class Card {
 
@@ -19,7 +21,7 @@ public class Card {
 
     @Id
     @Column(name = "cardnumber", unique = true, nullable = false)
-    private int cardNumber;
+    private BigDecimal cardNumber;
 
 
     @Column(name = "cardsecurity", unique = true,nullable = false)
@@ -33,16 +35,16 @@ public class Card {
     public Card() {
     }
 
-    public Card(int cardNumber, int cardSecurity) {
+    public Card(BigDecimal cardNumber, int cardSecurity) {
         this.cardNumber = cardNumber;
         this.cardSecurity = cardSecurity;
     }
 
-    public int getCardNumber() {
+    public BigDecimal getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(int cardNumber) {
+    public void setCardNumber(BigDecimal cardNumber) {
         this.cardNumber = cardNumber;
     }
 

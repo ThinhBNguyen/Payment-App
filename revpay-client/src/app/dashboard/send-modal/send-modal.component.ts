@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RemoteService } from '../../remote.service';
 
@@ -11,7 +11,9 @@ import { RemoteService } from '../../remote.service';
   styleUrl: './send-modal.component.css'
 })
 export class SendModalComponent {
-
+  @ViewChild('closeModal') closeModal!: ElementRef;
+  @Output() succcessMessage = new EventEmitter<string>();
+  @Output() failureMessage = new EventEmitter<string>();
   accounts: any[] = [];
 
   sendDetails = {
@@ -24,26 +26,19 @@ export class SendModalComponent {
 
   ngOnInit(): void {
     this.remoteService.getAccountsWithCard().subscribe(
-      data =>  {
-
-        console.log('got accounts with card' + data)
-        this.accounts = data;
-      },
-      error => {
-        console.error('Error fetching accounts', error);
-      }
-    );
+      data =>  { this.accounts = data;},);
   }
 
 
   onSubmit() {
       this.remoteService.sendMoney(this.sendDetails).subscribe(
         response => {
-          console.log('Money sent successfully', response);
-          // Add any additional logic after successful sending
+          this.succcessMessage.emit('Funds transferred');
+          this.closeModal.nativeElement.click();
         },
         error => {
-          console.error('Error sending money', error);
+          this.failureMessage.emit('Transfer failed');
+          this.closeModal.nativeElement.click();
         }
       );
     }

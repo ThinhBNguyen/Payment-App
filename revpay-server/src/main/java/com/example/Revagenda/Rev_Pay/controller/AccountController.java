@@ -2,7 +2,9 @@ package com.example.Revagenda.Rev_Pay.controller;
 
 
 import com.example.Revagenda.Rev_Pay.entity.Account;
+import com.example.Revagenda.Rev_Pay.exceptions.InsufficientFundsException;
 import com.example.Revagenda.Rev_Pay.service.AccountService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -65,4 +67,23 @@ public class AccountController {
         return accountService.getAccountsWithCard(username);
     }
 
+    //EXCEPTIONS HANDLING
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleEntityNotFound(EntityNotFoundException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(InsufficientFundsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleInsufficientFunds(InsufficientFundsException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String handleGeneralException(Exception ex) {
+        return ex.getMessage();
+    }
 }

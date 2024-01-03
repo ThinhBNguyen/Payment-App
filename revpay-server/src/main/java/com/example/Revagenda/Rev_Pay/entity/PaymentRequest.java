@@ -9,7 +9,7 @@ public class PaymentRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "sender_account_id")
@@ -19,8 +19,14 @@ public class PaymentRequest {
     @JoinColumn(name = "receiver_account_id")
     private Account receiverAccount; // The account to receive funds
 
+    @Column(name = "amount")
     private BigDecimal amount;
+
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private PaymentRequestStatus status;
+
 
     public enum PaymentRequestStatus {
         PENDING,
@@ -31,7 +37,7 @@ public class PaymentRequest {
     public PaymentRequest() {
     }
 
-    public PaymentRequest(Long id, Account senderAccount, Account receiverAccount, BigDecimal amount, PaymentRequestStatus status) {
+    public PaymentRequest(int id, Account senderAccount, Account receiverAccount, BigDecimal amount, PaymentRequestStatus status) {
         this.id = id;
         this.senderAccount = senderAccount;
         this.receiverAccount = receiverAccount;
@@ -39,11 +45,11 @@ public class PaymentRequest {
         this.status = status;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

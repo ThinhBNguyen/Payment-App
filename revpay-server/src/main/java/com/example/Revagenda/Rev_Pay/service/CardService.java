@@ -4,6 +4,8 @@ package com.example.Revagenda.Rev_Pay.service;
 import com.example.Revagenda.Rev_Pay.dao.CardRepository;
 import com.example.Revagenda.Rev_Pay.entity.Account;
 import com.example.Revagenda.Rev_Pay.entity.Card;
+import com.example.Revagenda.Rev_Pay.exceptions.CardAlreadyExistsException;
+import com.example.Revagenda.Rev_Pay.exceptions.CardNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,13 +31,16 @@ public class CardService {
 
     public Card addCardToAccount(int cardId, Card card){
         Account account = accountService.getAccountById(cardId);
+        cardRepository.findByAccountId(cardId).ifPresent(existingCard -> {
+            throw new CardAlreadyExistsException("A card is already associated with account ID: " + cardId);
+        });
         account.setBalance(BigDecimal.valueOf(000));
         card.setAccount(account);
         Card savedCard = cardRepository.save(card);
         return savedCard;
     }
 
-    public Optional<Card> getCardByAccount(int cardId){
-        return cardRepository.findByAccountId(cardId);
+    public Card getCardByAccount(int accountId){
+        return cardRepository.findByAccountId(accountId).orElseThrow(() -> new CardNotFoundException("No card found for account ID: " + accountId));
     }
 }

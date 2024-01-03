@@ -42,18 +42,14 @@ public class TransactionService {
         Account fromAccount = accountService.getAccountById(transferDTO.getSenderAccountId());
         Account toAccount = recipient.getAccounts().get(0);
 
-        // Check if sender has enough balance
         if (fromAccount.getBalance().compareTo(transferDTO.getAmount()) < 0) {
             throw new InsufficientFundsException("Insufficient funds for the transfer.");
         }
-
-        // Perform transfer
         fromAccount.setBalance(fromAccount.getBalance().subtract(transferDTO.getAmount()));
         toAccount.setBalance(toAccount.getBalance().add(transferDTO.getAmount()));
         accountService.save(fromAccount);
         accountService.save(toAccount);
 
-        // Record the transaction
         Transaction transaction = new Transaction();
         transaction.setFromAccount(fromAccount);
         transaction.setToAccount(toAccount);

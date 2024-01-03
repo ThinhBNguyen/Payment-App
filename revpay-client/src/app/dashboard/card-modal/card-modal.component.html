@@ -1,9 +1,9 @@
-<div class="modal fade" id="cardModal" tabindex="-1" >
+<div class="modal fade" id="cardModal" tabindex="-1"  #cardModalRef >
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="cardModalLabel">Add New Card</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button #closeModal type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span >&times;</span>
                 </button>
             </div>
@@ -11,11 +11,23 @@
                 <form (ngSubmit) = "onSubmit()" >
                     <div class="form-group">
                         <label for="cardNumber">Card Number</label>
-                        <input type="text" class="form-control" [(ngModel)] = "card.cardNumber"id="cardNumber"  name="cardNumber" required>
+                        <input type="text" class="form-control" [(ngModel)] = "card.cardNumber"id="cardNumber"  name="cardNumber" 
+                        maxlength="16"
+                        pattern="\\d{16}" required
+                        #cardNumber="ngModel">
+                        <div *ngIf="cardNumber.errors?.['pattern'] && (cardNumber.dirty || cardNumber.touched)" class="alert alert-danger">
+                            Card number must be exactly 16 digits.
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="cardSecurityCode">Security Code</label>
-                        <input type="text" class="form-control" id="cardSecurityCode" [(ngModel)] = "card.cardSecurity"  name="cardSecurity" required>
+                        <input type="text" class="form-control" id="cardSecurityCode" [(ngModel)] = "card.cardSecurity"  name="cardSecurity"
+                        maxlength="3" 
+                        pattern="\\d{3}" required
+                        #cardSecurity="ngModel">
+                        <div *ngIf="cardSecurity.errors?.['pattern'] && (cardSecurity.dirty || cardSecurity.touched)" class="alert alert-danger">
+                            Security code must be 3 digits.
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="cardType">Card Type</label>
