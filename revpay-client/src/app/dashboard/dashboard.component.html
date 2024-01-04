@@ -1,4 +1,3 @@
-
 <div class="container mt-4">
     <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
     <div *ngIf="failureMessage" class="alert alert-danger">{{ failureMessage }}</div>
@@ -16,16 +15,14 @@
             View Payment Requests
         </button>
 
-        <app-viewrequests-modal (succcessMessage)="handleSuccess($event)" 
-                                (failureMessage)="handleError($event)">
-    </app-viewrequests-modal>
+        <app-viewrequests-modal (succcessMessage)="handleSuccess($event)" (failureMessage)="handleError($event)">
+        </app-viewrequests-modal>
 
         <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#sendModal">
             Send
         </button>
 
-        <app-send-modal (succcessMessage)="handleSuccess($event)" 
-                         (failureMessage)="handleError($event)">
+        <app-send-modal (succcessMessage)="handleSuccess($event)" (failureMessage)="handleError($event)">
         </app-send-modal>
 
         <button #closeModal class="btn btn-primary mb-3" data-toggle="modal" data-target="#createAccountModal">
@@ -33,7 +30,7 @@
         </button>
 
         <button class="btn btn-danger mb-3" (click)="logout()">Logout</button>
-    
+
         <div class="modal fade" id="createAccountModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -47,7 +44,8 @@
                         <form (ngSubmit)="onSubmit()">
                             <div class="form-group">
                                 <label for="accountType">Account Type</label>
-                                <select class="form-control" id="accountType" [(ngModel)]="newAccount.type" name="type" required>
+                                <select class="form-control" id="accountType" [(ngModel)]="newAccount.type" name="type"
+                                    required>
                                     <option value="USER">USER</option>
                                     <option value="BUSINESS">BUSINESS</option>
                                 </select>
@@ -72,33 +70,33 @@
                             <p *ngIf="account.card?.type" class="card-text">Card Type: {{ account.card?.type }}</p>
                             <p *ngIf="!account.card?.type" class="card-text">Card Type: No Card</p>
                             <p class="card-text"><small class="text-muted">Account Type: {{ account.type }}</small></p>
-                            <button class="btn btn-secondary m-2" data-toggle="modal" data-target="#cardModal" (click)="select(account.id)">
+                            <button class="btn btn-secondary m-2" data-toggle="modal" data-target="#cardModal"
+                                (click)="select(account.id)">
                                 Add Card
                             </button>
-                            <app-card-modal [accountId]="selectedAccountId"
-                                            (succcessMessage)="handleSuccess($event)" 
-                                            (failureMessage)="handleError($event)"> 
+                            <app-card-modal [accountId]="selectedAccountId" (succcessMessage)="handleSuccess($event)"
+                                (failureMessage)="handleError($event)">
                             </app-card-modal>
-                            <button class="btn btn-secondary m-2" data-toggle="modal" data-target="#depositModal" (click)="select(account.id)" >
+                            <button class="btn btn-secondary m-2" data-toggle="modal" data-target="#depositModal"
+                                (click)="select(account.id)">
                                 Deposit
                             </button>
-                            <app-deposit-modal [accountId]="selectedAccountId"
-                                                (succcessMessage)="handleSuccess($event)" 
-                                                (failureMessage)="handleError($event)">
-                        </app-deposit-modal>
-                            <button class="btn btn-secondary m-2" data-toggle="modal" data-target="#withdrawModal" (click)="select(account.id)">
+                            <app-deposit-modal [accountId]="selectedAccountId" (succcessMessage)="handleSuccess($event)"
+                                (failureMessage)="handleError($event)">
+                            </app-deposit-modal>
+                            <button class="btn btn-secondary m-2" data-toggle="modal" data-target="#withdrawModal"
+                                (click)="select(account.id)">
                                 Withdraw
                             </button>
-                            <app-withdraw-modal [accountId]="selectedAccountId" 
-                                                (succcessMessage)="handleSuccess($event)" 
-                                                (failureMessage)="handleError($event)">
-                        </app-withdraw-modal>
-                            <button class="btn btn-secondary m-2" data-toggle="modal" data-target="#paymentRequestSubmitModal" (click)="select(account.id)">
+                            <app-withdraw-modal [accountId]="selectedAccountId"
+                                (succcessMessage)="handleSuccess($event)" (failureMessage)="handleError($event)">
+                            </app-withdraw-modal>
+                            <button class="btn btn-secondary m-2" data-toggle="modal"
+                                data-target="#paymentRequestSubmitModal" (click)="select(account.id)">
                                 Request
                             </button>
-                            <app-request-modal [accountId]="selectedAccountId" 
-                                                (succcessMessage)="handleSuccess($event)" 
-                                                (failureMessage)="handleError($event)">
+                            <app-request-modal [accountId]="selectedAccountId" (succcessMessage)="handleSuccess($event)"
+                                (failureMessage)="handleError($event)">
                             </app-request-modal>
                         </div>
                     </div>

@@ -28,16 +28,16 @@ public class AccountController {
 
     @GetMapping("/my-accounts")
     @ResponseStatus(HttpStatus.OK)
-    public List<Account> getCurrentUserAccounts(Principal principal) {
+    public ResponseEntity<List<Account>> getCurrentUserAccounts(Principal principal) {
         String username = principal.getName();
-        return accountService.getAccountByUser(username);
+        return ResponseEntity.ok(accountService.getAccountByUser(username));
     }
 
     @PostMapping("/create-account")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Account createAccountForCurrentUser(@RequestBody Account account, Authentication authentication) {
+    public ResponseEntity<Account> createAccountForCurrentUser(@RequestBody Account account, Authentication authentication) {
         String username = authentication.getName();
-        return accountService.createAccountForUser(account, username);
+        return ResponseEntity.ok(accountService.createAccountForUser(account, username));
     }
 
     @PostMapping("/{accountId}/deposit")
@@ -62,9 +62,9 @@ public class AccountController {
 
     @GetMapping("/accounts-with-card")
     @ResponseStatus(HttpStatus.OK)
-    public List<Account> getAccountsWithCard(Principal principal) {
+    public ResponseEntity<List<Account>> getAccountsWithCard(Principal principal) {
         String username = principal.getName();
-        return accountService.getAccountsWithCard(username);
+        return ResponseEntity.ok(accountService.getAccountsWithCard(username));
     }
 
     //EXCEPTIONS HANDLING

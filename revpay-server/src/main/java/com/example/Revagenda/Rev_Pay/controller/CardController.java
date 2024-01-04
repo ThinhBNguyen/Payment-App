@@ -8,6 +8,7 @@ import com.example.Revagenda.Rev_Pay.security.Authentication;
 import com.example.Revagenda.Rev_Pay.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -25,14 +26,14 @@ public class CardController {
     }
     @PostMapping("/{accountId}/add-card")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Card addCardToAccount(@RequestBody Card card, @PathVariable("accountId") int id){
-        return cardService.addCardToAccount(id, card);
+    public ResponseEntity<Card> addCardToAccount(@RequestBody Card card, @PathVariable("accountId") int id){
+        return ResponseEntity.ok(cardService.addCardToAccount(id, card));
     }
 
     @GetMapping("/{accountId}/get-card")
     @ResponseStatus(HttpStatus.OK)
-    public Card getCardByAccount(@PathVariable("accountId") int id){
-        return cardService.getCardByAccount(id);
+    public ResponseEntity<Card> getCardByAccount(@PathVariable("accountId") int id){
+        return ResponseEntity.ok(cardService.getCardByAccount(id));
     }
 
     //EXCEPTIONS HANDLING

@@ -69,11 +69,9 @@ public class AccountService {
             account.setBalance(BigDecimal.ZERO);
         }
         BigDecimal currentBalance = account.getBalance();
-
         if (currentBalance.compareTo(amount) < 0) {
             throw new InsufficientFundsException("Insufficient funds for withdrawal");
         }
-
         BigDecimal newBalance = currentBalance.subtract(amount);
         account.setBalance(newBalance);
         return accountRepository.save(account);

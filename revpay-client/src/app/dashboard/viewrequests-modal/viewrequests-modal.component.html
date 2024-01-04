@@ -1,23 +1,25 @@
 <div class="modal fade" id="paymentRequestModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalLabel">Received Payment Requests</h5>
-          <button #closeModal type="button" class="close" data-dismiss="modal">
-            <span>&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Received Payment Requests</h5>
+                <button #closeModal type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let request of paymentRequests">
+                        <p>Amount: {{ request.amount }}</p>
+                        <p>From: {{ request.senderAccount.id }}</p>
+                        <p>Status: {{ request.status }}</p>
+                        <button class="btn btn-success btn-sm" (click)="acceptRequest(request.id)"
+                            *ngIf="request.status === 'PENDING'">Accept</button>
+                        <button class="btn btn-danger btn-sm" (click)="declineRequest(request.id)"
+                            *ngIf="request.status === 'PENDING'">Decline</button>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="modal-body">
-          <ul class="list-group">
-            <li class="list-group-item" *ngFor="let request of paymentRequests">
-              <p>Amount: {{ request.amount }}</p>
-              <p>From: {{ request.senderAccount.id }}</p>
-              <p>Status: {{ request.status }}</p>
-              <button class="btn btn-success btn-sm" (click)="acceptRequest(request.id)" *ngIf="request.status === 'PENDING'">Accept</button>
-              <button class="btn btn-danger btn-sm" (click)="declineRequest(request.id)" *ngIf="request.status === 'PENDING'">Decline</button>
-            </li>
-          </ul>
-        </div>
-      </div>
     </div>
-  </div>
+</div>

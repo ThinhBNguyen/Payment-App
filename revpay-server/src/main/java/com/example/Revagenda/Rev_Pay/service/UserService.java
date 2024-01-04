@@ -35,19 +35,17 @@ public class UserService {
                 .ifPresent(existingUser -> {
                     throw new EmailAlreadyExistsException("Email already exists: " + user.getEmail());
                 });
-
         user.setPassWord(passwordEncoder.encode(user.getPassWord()));
         return userRepository.save(user);
     }
 
     public List<User> getAllUser(){
-
         return userRepository.findAll();
     }
 
     public User findByUserName(String username){
         return userRepository.findByUserName(username).orElseThrow(()
-                -> new UsernameNotFoundException("User not found with username: " + username));
+                -> new UsernameNotFoundException("User not found: " + username));
     }
 
     public User findByUsernameOrEmail(String recipientIdentifier) {

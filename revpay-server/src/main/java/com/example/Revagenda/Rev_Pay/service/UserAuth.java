@@ -23,8 +23,7 @@ public class UserAuth implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         com.example.Revagenda.Rev_Pay.entity.User user = userRepository.findByUserName(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
         return new User(
                 user.getUserName(),
                 user.getPassWord(),

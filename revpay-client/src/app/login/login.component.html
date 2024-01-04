@@ -1,25 +1,24 @@
 <div>
-    <div class ="container">
-      <p class ="h4 mb-4" >RevPay Login</p>
-  <div *ngIf="loginMessage" class="alert alert-success" role="alert">
-    {{ loginMessage }}
+  <div class="container">
+    <p class="h4 mb-4">RevPay Login</p>
+    <div *ngIf="loginMessage" class="alert alert-success" role="alert">
+      {{ loginMessage }}
+    </div>
+    <div *ngIf="isValidMessage" class="alert alert-danger" role="alert">
+      {{ isValidMessage }}
+    </div>
+    <form autocomplete="off" (ngSubmit)="login()">
+      <div>
+        <label for="username">Username </label>
+        <input type="text" name="userName" [(ngModel)]="userName" placeholder="Username" class="form-control mb-4 w-25">
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" name="passWord" [(ngModel)]="passWord" placeholder="Password"
+          class="form-control mb-4 w-25">
+      </div>
+      <button type="submit" class="btn btn-primary m-2">Login </button>
+      <a routerLink="register" class="btn btn-primary m-2"> Register </a>
+    </form>
   </div>
-  <div *ngIf="isValidMessage" class="alert alert-danger" role="alert">
-    {{ isValidMessage }}
-  </div>
-  <form (ngSubmit) = "login()">
-  <div>
-    <label for ="username" >Username </label>
-    <input type="text" name="userName" [(ngModel)]="userName" 
-    placeholder="Username" class="form-control mb-4 w-25">
-  </div>
-  <div>
-    <label for ="password" >Password</label>
-    <input type="password" name="passWord" [(ngModel)]="passWord" 
-    placeholder="Password" class="form-control mb-4 w-25">
-  </div>
-  <button type="submit" class = "btn btn-primary m-2" >Login </button>
-  <a routerLink="register" class="btn btn-primary m-2" > Register </a>
-  </form>
-  </div>
-  </div>  
+</div>
