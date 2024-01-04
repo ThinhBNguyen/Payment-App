@@ -53,7 +53,7 @@ public class TransactionController {
     }
 
     @ExceptionHandler(InsufficientFundsException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String InsufficientFundsException(InsufficientFundsException ex) {
         return ex.getMessage();
     }

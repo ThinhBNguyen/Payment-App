@@ -26,7 +26,7 @@ public class Account {
     @OneToOne(mappedBy = "account")
     @JsonManagedReference
     private Card card;
-    private enum Type {
+    public enum Type {
         USER,
         BUSINESS
     }

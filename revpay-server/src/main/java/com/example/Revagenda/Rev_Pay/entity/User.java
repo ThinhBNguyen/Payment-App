@@ -13,6 +13,8 @@ import java.util.List;
 @Table(indexes = {@Index(columnList = "username")})
 public class User {
 
+
+
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     public enum Role{
         USER,
@@ -68,6 +70,9 @@ public class User {
     }
 
     public User() {
+    }
+
+    public User(int id, String firstName, String lastName, String userName, String email, String passWord) {
     }
 
     public User(int id, String firstName, String lastName, String userName, String passWord, String email, Role role) {

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface UserDto {
   firstName: string
@@ -45,6 +45,7 @@ export interface PaymentRequestDetails{
   providedIn: 'root'
 })
 export class RemoteService {
+
   getUserAccounts(): Observable<any> {
     return this.http.get(this.baseUrl + '/accounts/my-accounts', { withCredentials: true });
   }
@@ -55,6 +56,7 @@ export class RemoteService {
     'Content-Type': 'application/json'
   })}
   private baseUrl = "http://localhost:8080";
+  private loggedIn = new BehaviorSubject<boolean>(this.checkLoggedInStatus());
 
   constructor(private http: HttpClient) { 
   }
@@ -75,7 +77,7 @@ export class RemoteService {
   }
 
   logout(): Observable<any> {
-    return this.http.post(this.baseUrl+'/logout', {}, { withCredentials: true });
+    return this.http.get(this.baseUrl+'/perform_logout', { withCredentials: true });
   }
 
   createAccount(account: Account): Observable<any> {
@@ -124,6 +126,19 @@ export class RemoteService {
 
   submitPaymentRequest(paymentRequestDetails: PaymentRequestDetails): Observable<any>{
     return this.http.post(this.baseUrl + `/payment/send-payment`, paymentRequestDetails, { withCredentials: true });
+  }
+
+  private checkLoggedInStatus(): boolean {
+    return localStorage.getItem('isLoggedIn') === 'true';
+  }
+
+  setLoggedIn(value: boolean) {
+    this.loggedIn.next(value);
+    localStorage.setItem('isLoggedIn', value.toString());
+  }
+
+  get isLoggedIn() {
+    return this.loggedIn.asObservable();
   }
 
 }

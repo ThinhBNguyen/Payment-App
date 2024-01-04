@@ -3,6 +3,7 @@ package com.example.Revagenda.Rev_Pay.controller;
 
 import com.example.Revagenda.Rev_Pay.dto.PaymentRequestDTO;
 import com.example.Revagenda.Rev_Pay.entity.PaymentRequest;
+import com.example.Revagenda.Rev_Pay.exceptions.InsufficientFundsException;
 import com.example.Revagenda.Rev_Pay.service.PaymentRequestService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,12 @@ public class PaymentRequestController {
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String EntityNotFoundException(EntityNotFoundException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(InsufficientFundsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String InsufficientFundsException(InsufficientFundsException ex) {
         return ex.getMessage();
     }
 }

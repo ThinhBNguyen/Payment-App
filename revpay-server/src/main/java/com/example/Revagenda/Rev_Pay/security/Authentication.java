@@ -19,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -47,7 +49,7 @@ public class Authentication {
                 .csrf().disable()
                 .httpBasic(withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login","/save")
+                        .requestMatchers("/login","/save","/perform_logout")
                         .permitAll()
                         .anyRequest().authenticated()
                 )
@@ -58,7 +60,8 @@ public class Authentication {
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
+
+                        .logoutUrl("/perform_logout")
                         .deleteCookies("JSESSIONID")
                         .invalidateHttpSession(true)
                         .permitAll()

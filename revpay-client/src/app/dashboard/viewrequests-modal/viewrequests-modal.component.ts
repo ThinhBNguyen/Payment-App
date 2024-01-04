@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RemoteService } from '../../remote.service';
 
@@ -11,6 +11,9 @@ import { RemoteService } from '../../remote.service';
   styleUrl: './viewrequests-modal.component.css'
 })
 export class ViewrequestsModalComponent {
+  @ViewChild('closeModal') closeModal!: ElementRef;
+  @Output() succcessMessage = new EventEmitter<string>();
+  @Output() failureMessage = new EventEmitter<string>();
   paymentRequests :any[] = [];
 
   constructor(private remoteService: RemoteService){}
@@ -25,10 +28,12 @@ export class ViewrequestsModalComponent {
   acceptRequest(requestId: number): void {
     this.remoteService.acceptPaymentRequest(requestId).subscribe({
       next:(response) => {
-        console.log('Request Accepted' + response) 
+        this.succcessMessage.emit('Request Accepted');
+        this.closeModal.nativeElement.click();
       },
       error:(error) => {
-        console.error('Error accepting request' + error)
+        this.failureMessage.emit('Error accepting request');
+        this.closeModal.nativeElement.click();
       }
     })
   }
@@ -36,9 +41,12 @@ export class ViewrequestsModalComponent {
   declineRequest(requestId: number): void {
     this.remoteService.declinePaymentRequest(requestId).subscribe({
       next:(response) => {
-        console.log('Request Declined' + response)
+        this.succcessMessage.emit('Request Declined');
+        this.closeModal.nativeElement.click();
       },
-      error:(error) => { console.error('Error declining request' + error) 
+      error:(error) => { 
+        this.failureMessage.emit('Error Declining request');
+        this.closeModal.nativeElement.click();
     }
     })
   }

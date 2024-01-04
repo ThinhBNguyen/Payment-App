@@ -16,7 +16,9 @@
             View Payment Requests
         </button>
 
-        <app-viewrequests-modal></app-viewrequests-modal>
+        <app-viewrequests-modal (succcessMessage)="handleSuccess($event)" 
+                                (failureMessage)="handleError($event)">
+    </app-viewrequests-modal>
 
         <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#sendModal">
             Send

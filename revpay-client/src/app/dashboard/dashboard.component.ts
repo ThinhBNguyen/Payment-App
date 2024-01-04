@@ -54,11 +54,13 @@ export class DashboardComponent {
     logout() {
       this.remoteService.logout().subscribe({
         next: (response) => {
+          this.remoteService.setLoggedIn(false);
           this.router.navigate(['']);
       },
-          error: (error) => {
-              this.router.navigate(['']);
-          }
+      error: (error) => {
+        this.remoteService.setLoggedIn(false);
+        this.router.navigate(['']);
+      }
       });
     }
 

@@ -26,6 +26,7 @@ export class LoginComponent {
      this.remoteService.login(this.userName, this.passWord).subscribe(
        data=>{
         this.loginMessage = 'Login successful!';
+        this.remoteService.setLoggedIn(true);
         this.router.navigate(['/dashboard']);
 
     },
