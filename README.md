@@ -6,4 +6,3 @@ ER Diagram
 
 Architecture Diagram
 
-![](diagrams/Rev_pay_diagram (1).pdf)
