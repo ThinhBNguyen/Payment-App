@@ -6,11 +6,11 @@ import com.example.Revagenda.Rev_Pay.dto.LoanDTO;
 import com.example.Revagenda.Rev_Pay.entity.Account;
 import com.example.Revagenda.Rev_Pay.entity.Loan;
 import jakarta.transaction.Transactional;
-import org.springframework.scheduling.annotation.Scheduled;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 @Service
 @Transactional(Transactional.TxType.REQUIRED)
@@ -40,22 +40,4 @@ public class LoanService {
         return loanRepository.save(loan);
     }
 
-
-    @Scheduled(fixedRate = 3000)
-    public void checkLoan() {
-        LocalDateTime now = LocalDateTime.now();
-        List<Loan> dueLoans = loanRepository.findByProcessedFalseAndIssuedDateBefore(now);
-
-        for (Loan loan : dueLoans) {
-            LocalDateTime dueDate = loan.getIssuedDate().plusSeconds(loan.getDurationSeconds());
-            if (now.isAfter(dueDate) || now.isEqual(dueDate)) {
-                Account account = loan.getAccount();
-                account.setBalance(account.getBalance().subtract(loan.getAmount()));
-                accountService.save(account);
-
-                loan.setProcessed(true);
-                loanRepository.save(loan);
-            }
-        }
-    }
 }
