@@ -40,4 +40,22 @@ public class LoanService {
         return loanRepository.save(loan);
     }
 
+
+    @Scheduled(fixedRate = 3000)
+    public void checkLoan() {
+        LocalDateTime now = LocalDateTime.now();
+        List<Loan> dueLoans = loanRepository.findByProcessedFalseAndIssuedDateBefore(now);
+
+        for (Loan loan : dueLoans) {
+            LocalDateTime dueDate = loan.getIssuedDate().plusSeconds(loan.getDurationSeconds());
+            if (now.isAfter(dueDate) || now.isEqual(dueDate)) {
+                Account account = loan.getAccount();
+                account.setBalance(account.getBalance().subtract(loan.getAmount()));
+                accountService.save(account);
+
+                loan.setProcessed(true);
+                loanRepository.save(loan);
+            }
+        }
+    }
 }
