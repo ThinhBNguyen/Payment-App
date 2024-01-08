@@ -5,4 +5,5 @@ ER Diagram
 
 
 Architecture Diagram
+[ViewLink](https://github.com/ThinhBNguyen/Payment-App/blob/main/diagrams/Rev_pay_diagram.pdf)
 
