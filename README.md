@@ -18,7 +18,7 @@ Registration page
 
 Dashboard page
 
- ![](demo/Dasboard.png)
+ ![](demo/Dashboard.png)
 
 View Transaction page
 
